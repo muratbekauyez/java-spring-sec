@@ -32,7 +32,7 @@
 </form>
 
 <h3>List of Books</h3>
-<div th:each="book : ${books}" th:if="${book.deleted == false}" class="alert alert-info mt-0">
+<div th:each="book : ${allbooks}" th:if="${book.deleted == false}" class="alert alert-info mt-0">
     <a th:href="'/book/' + ${book.isbn}"><span th:text="${book.name}"/></a>
     <a th:href="'/admin/book/'+${book.isbn}+'/edit'"><input type="submit" name="update" value="update"/></a>
     <a th:href="'/admin/book/'+${book.isbn}+'/delete'"><input type="submit" name="delete" value="delete"/></a>

@@ -14,6 +14,7 @@
     <p><b>Surname: </b><span th:text="${user.surname}"/></p>
 </div>
 
+<a th:href="'/borrow/'+${user.username}">Borrow a Book</a>
 <h2>List of Borrowed Books</h2>
 <div th:each="book : ${books}" th:if="${book.deleted == false}">
     <a th:href="'/book/' + ${book.isbn}"><h4 th:text="${book.name}"/></a>

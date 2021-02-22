@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.repository.dto.Book;
 import com.example.demo.repository.dto.User;
 import com.example.demo.service.BookService;
 import com.example.demo.service.BookingService;
@@ -9,9 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping()
@@ -36,11 +38,12 @@ public class UserController {
         user.setPassword(null);
 
         model.addAttribute("user", user);
-        model.addAttribute("books",bookService.allBooks());
         model.addAttribute("users",userService.allUsers());
-        if (user.getRole().getRolename().equals("ROLE_ADMIN")){
-            return "admin";
-        }
+        model.addAttribute("allbooks",bookService.allBooks());
+        model.addAttribute("books",bookingService.getBorrowedBooksOfUser(username));
+
+
+        if (user.getRole().getRolename().equals("ROLE_ADMIN")) return "admin";
         return "userPage";
     }
 
@@ -48,6 +51,20 @@ public class UserController {
     public String bookPage(@PathVariable(value = "isbn") String isbn, Model model){
         model.addAttribute("book", bookService.getIsbn(isbn));
         return "bookPage";
+    }
+    @GetMapping("/borrow/{id}")
+    public String borrowBook(@PathVariable(value = "id") String id, Model model) {
+        model.addAttribute("books", bookService.allBooks());
+        return "borrowBook";
+    }
+
+    @PostMapping("/borrow/{id}")
+    public String borrowBook(@PathVariable(value = "id") String id, @RequestParam("isbn") List<String> books) {
+        User user = userService.getUserById(id);
+        ArrayList<Book> bookArrayList = bookService.getBooksByIsbn(books);
+        bookingService.borrowBook(user, bookArrayList);
+        System.out.println("CHECK THE METHOD");
+        return "redirect:userPage";
     }
 
 }
