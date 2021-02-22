@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>USER PAGE</title>
+    <title>USER PAGE FOR ADMIN</title>
 </head>
 <body>
-<h1>USER PAGE</h1>
+<h1>USER PAGE FOR ADMIN</h1>
 <div th:each="user : ${user}" >
     <h3 th:text="${user.username}"/>
+    <a th:href="'/admin/'+${user.username}+'/edit'"><input type="submit" name="update" value="update"/></a>
+    <a th:href="'/admin/'+${user.username}+'/delete'"><input type="submit" name="delete" value="delete"/></a>
     <p><b>Name: </b><span th:text="${user.name}"/></p>
     <p><b>Surname: </b><span th:text="${user.surname}"/></p>
 </div>
@@ -16,7 +18,6 @@
 <div th:each="book : ${books}" th:if="${book.deleted == false}">
     <a th:href="'/book/' + ${book.isbn}"><h4 th:text="${book.name}"/></a>
 </div>
-
 <button class="logout" >
     <a th:href="@{/logout}">Logout</a>
 </button>

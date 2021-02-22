@@ -10,10 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping()
 public class UserController {
     private UserService userService;
     private BookService bookService;
@@ -26,7 +27,8 @@ public class UserController {
         this.bookingService = bookingService;
     }
 
-    @GetMapping()
+    /*RETURN USER PAGE OR ADMIN PAGE AFTER AUTHENTICATION*/
+    @GetMapping("/userPage")
     public String successfulLoginPage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -39,6 +41,13 @@ public class UserController {
         if (user.getRole().getRolename().equals("ROLE_ADMIN")){
             return "admin";
         }
-        return "index";
+        return "userPage";
     }
+
+    @GetMapping("book/{isbn}")
+    public String bookPage(@PathVariable(value = "isbn") String isbn, Model model){
+        model.addAttribute("book", bookService.getIsbn(isbn));
+        return "bookPage";
+    }
+
 }

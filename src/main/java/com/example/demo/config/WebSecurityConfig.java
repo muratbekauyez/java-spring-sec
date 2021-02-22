@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 //Доступ разрешен всем пользователей
-                .antMatchers("/",  "/index/**", "/admin/**").permitAll()
+                .antMatchers("/",  "/userPage/**", "/admin/**").permitAll()
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 //Перенарпавление на главную страницу после успешного входа
-                .defaultSuccessUrl("/index")
+                .defaultSuccessUrl("/userPage")
                 .permitAll()
                 .and()
                 .logout()
