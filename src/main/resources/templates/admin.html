@@ -6,7 +6,7 @@
 </head>
 <body>
 <H1>ADMIN PAGE</H1>
-<h3>List of Users</h3>
+<h3>Add User</h3>
 <form method="POST"  th:action="@{/admin/add}">
     <input type="text" name="username" placeholder="username">
     <input type="text" name="name" placeholder="name">
@@ -15,13 +15,16 @@
     <input type="submit" class="submit" value="Submit">
 </form>
 
+<h3>List of Users</h3>
 <div th:each="user : ${users}" th:if="${user.deleted==false}">
     <a th:href="'/user/'+${user.username}"><span th:text="${user.getUsername()}"/></a>
+    <a th:href="'/admin/'+${user.username}+'/edit'"><input type="submit" name="update" value="update"/></a>
+    <a th:href="'/admin/'+${user.username}+'/delete'"><input type="submit" name="delete" value="delete"/></a>
 </div><br>
 
 
 <form name = "l" method="post" th:action="@{/logout}">
-    <input type="submit" class="logout" value="Logout" name="logout"><br>
+    <input type="submit" value="Logout" name="logout"><br>
 </form>
 
 </body>

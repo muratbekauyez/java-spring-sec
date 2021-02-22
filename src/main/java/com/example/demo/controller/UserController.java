@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public String indexPage(Model model){
+    public String successfulLoginPage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userService.getUserById(username);

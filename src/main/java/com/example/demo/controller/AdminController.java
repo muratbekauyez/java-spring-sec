@@ -43,5 +43,27 @@ public class AdminController {
         return "admin";
     }
 
+    @GetMapping("/{id}/edit")
+    public String updateUserPage(@PathVariable(value = "id") String id, Model model){
+        System.out.println("GET METHOD TEST");
+        model.addAttribute("id", id);
+        model.addAttribute("user", new User());
+        return "updateUser";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String updateUser(@ModelAttribute("user") User user, @PathVariable(value = "id")String id){
+        System.out.println("POSTT METHOD TEST");
+        userService.updateUser(id, user);
+        return "index";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteUser(@PathVariable(value = "id") String id){
+        System.out.println("DELETE METHOD TEST");
+        userService.deleteUser(id);
+        return "index";
+    }
+
 
 }

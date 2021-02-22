@@ -69,7 +69,7 @@ public class UserService implements UserDetailsService {
     public void updateUser(String id, User user){
         User tempUser = userRepository.findById(id).orElseThrow();
         tempUser.setName(user.getName());
-        tempUser.setPassword(user.getPassword());
+        tempUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         tempUser.setSurname(user.getSurname());
         userRepository.save(tempUser);
     }
