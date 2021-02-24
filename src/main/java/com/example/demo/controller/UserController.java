@@ -42,22 +42,26 @@ public class UserController {
         model.addAttribute("allbooks",bookService.allBooks());
         model.addAttribute("books",bookingService.getBorrowedBooksOfUser(username));
 
-
+        /*If user is admin return admin page, else return user page*/
         if (user.getRole().getRolename().equals("ROLE_ADMIN")) return "admin";
         return "userPage";
     }
 
+    /*Return particular book page*/
     @GetMapping("book/{isbn}")
     public String bookPage(@PathVariable(value = "isbn") String isbn, Model model){
         model.addAttribute("book", bookService.getIsbn(isbn));
         return "bookPage";
     }
+
+    /*GETMAPPING FROM userPage.html, RETURNS ANOTHER WEB PAGE WITH inputs*/
     @GetMapping("/borrow/{id}")
     public String borrowBook(@PathVariable(value = "id") String id, Model model) {
         model.addAttribute("books", bookService.allBooks());
         return "borrowBook";
     }
 
+    /*POST METHOD FROM borrowBook*/
     @PostMapping("/borrow/{id}")
     public String borrowBook(@PathVariable(value = "id") String id, @RequestParam("isbn") List<String> books) {
         User user = userService.getUserById(id);

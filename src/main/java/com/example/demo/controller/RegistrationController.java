@@ -20,12 +20,14 @@ public class RegistrationController {
         this.userService = userService;
     }
 
+    /*Add method in Registration Controller and returns signup page*/
     @GetMapping()
     public String toAdd(Model model) {
         model.addAttribute("user", new User());
         return "signup";
     }
 
+    /*If user presses submit, POST Method to add user and redirect to login page*/
     @PostMapping("/add")
     public String addUser(@ModelAttribute("user") User user) {
         userService.addUser(user);

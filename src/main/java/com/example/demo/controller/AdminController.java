@@ -25,6 +25,7 @@ public class AdminController {
         this.bookingService = bookingService;
     }
 
+
     @GetMapping("/")
     public String adminPage(Model model){
         model.addAttribute("books",bookService.allBooks());

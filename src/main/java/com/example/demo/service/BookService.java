@@ -19,16 +19,19 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+
+    /*Add books to the db*/
     public void registerBook(Book book){
         book.setDeleted(false);
         bookRepository.save(book);
     }
 
+    /*Shows all books in the db*/
     public Iterable<Book> allBooks (){
         Iterable<Book> books = bookRepository.findAll();
         return books;
     }
-
+    /*Returns a book by id*/
     public ArrayList<Book> getIsbn(String isbn){
         Optional<Book> book = bookRepository.findById(isbn);
         ArrayList<Book> res = new ArrayList<>();
@@ -36,10 +39,13 @@ public class BookService {
         return res;
     }
 
+    /*Returns books by their IDs*/
     public ArrayList<Book> getBooksByIsbn(List<String> isbn) {
         return (ArrayList<Book>) bookRepository.findAllById(isbn);
     }
 
+
+    /*Edits a book*/
     public void updateBook(String isbn, Book book){
         Book tempBook = bookRepository.findById(isbn).orElseThrow();
         tempBook.setName(book.getName());
@@ -48,6 +54,7 @@ public class BookService {
         bookRepository.save(tempBook);
     }
 
+    /*Deletes book*/
     public void deleteBook (String isbn){
         Book book = bookRepository.findById(isbn).orElseThrow();
         book.setDeleted(true);

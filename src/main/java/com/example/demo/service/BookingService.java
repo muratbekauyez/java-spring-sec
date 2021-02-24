@@ -25,11 +25,13 @@ public class BookingService {
         this.userRepository = userRepository;
     }
 
+    /*Returns all booksings*/
     public Iterable<Booking> allBookings (){
         Iterable<Booking> bookings = bookingRepository.findAll();
         return bookings;
     }
 
+    /*Adds a particular book to user*/
     public void borrowBook(User user, ArrayList<Book> books){
         for (Book book: books){
             Booking booking = new Booking();
@@ -43,6 +45,8 @@ public class BookingService {
         }
     }
 
+
+    /*Show all books of particular user*/
     public ArrayList<Book> getBorrowedBooksOfUser(String id){
         User user = userRepository.findById(id).get();
         ArrayList<Booking> borrows = (ArrayList<Booking>) bookingRepository.findAllByUser(user);

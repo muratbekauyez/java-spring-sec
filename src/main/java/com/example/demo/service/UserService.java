@@ -30,6 +30,8 @@ public class UserService implements UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
+
+    /*loads a user by his username*/
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -44,8 +46,9 @@ public class UserService implements UserDetailsService {
         return user1;
     }
 
-    public User getUserById(String id){return userRepository.findById(id).get();}
 
+    public User getUserById(String id){return userRepository.findById(id).get();}
+    /*Add books to the db*/
     public void addUser(User user){
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setDeleted(false);
@@ -55,17 +58,20 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    /*Shows all users in the db**/
     public Iterable<User> allUsers(){
         Iterable<User> users = userRepository.findAll();
         return users;
     }
 
+    /*Returns a user by id*/
     public ArrayList<User> getId(String id){
         Optional<User> user = userRepository.findById(id);
         ArrayList<User> res = new ArrayList<>();
         user.ifPresent(res::add);
         return res;
     }
+    /*Edits a user*/
     public void updateUser(String id, User user){
         User tempUser = userRepository.findById(id).orElseThrow();
         tempUser.setName(user.getName());
@@ -73,6 +79,7 @@ public class UserService implements UserDetailsService {
         tempUser.setSurname(user.getSurname());
         userRepository.save(tempUser);
     }
+    /*Deletes user*/
     public void deleteUser(String id){
         User user = userRepository.findById(id).orElseThrow();
         user.setDeleted(true);
